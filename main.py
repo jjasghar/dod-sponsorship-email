@@ -10,7 +10,7 @@ from jinja2 import Environment, FileSystemLoader, PackageLoader
 def render_email(data_file, j2template, output_file):
     with open(data_file, 'r') as file:
         try:
-            data = file.read()
+            data = yaml.safe_load(file.read())
         except Exception as err:
             print(err)
 
@@ -22,6 +22,7 @@ def render_email(data_file, j2template, output_file):
 
     template = env.get_template(name=j2template)
     rendered = template.render(data)
+
     with open(output_file, "w") as file:
         file.write(rendered)
 
